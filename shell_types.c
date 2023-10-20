@@ -122,16 +122,13 @@ void non_interactive_shell(char *argv_0)
 				free_memory_all(3, cmd_file_path, 1, line, 1, args, 0);
 				exit(2);
 			}
+			free(cmd_file_path);
 		}
 		else
 		{
 			print_error_non(argv_0, args[0], commandCountNonInteractive);
 			exit(127);
 		}
-		free(line);
-		free(args);
-		if (cmd_file_path != NULL)
-			free(cmd_file_path);
+		free_memory_all(2, line, 1, args, 0);
 	}
-	free(line);
 }
