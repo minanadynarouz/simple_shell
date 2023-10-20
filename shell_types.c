@@ -123,7 +123,7 @@ void non_interactive_shell(char *argv_0)
 {
 	char **args;
 	char *line;
-	int status, commandCountNonInteractive = 0;
+	int status, builtInNum, commandCountNonInteractive = 0;
 	char *cmd_file_path;
 
 	while ((line = read_stream()) != 0)
@@ -136,7 +136,13 @@ void non_interactive_shell(char *argv_0)
 			free(line);
 			continue;
 		}
-		execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
+		builtInNum = execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
+                if (builtInNum == 100)
+                {
+                        free(line);
+                        free(args);
+                        continue;
+                }
 		cmd_file_path = stat_file_in_path(args[0]);
 		if (cmd_file_path != NULL)
 		{
