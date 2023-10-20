@@ -31,7 +31,7 @@ int execute_cmd(char *cmd, char **args)
 {
 	pid_t child_pid;
 	int status;
-	char **envp = {NULL};
+	char **envp = {environ};
 
 	if (cmd)
 	{
