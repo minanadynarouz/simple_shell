@@ -7,13 +7,17 @@
  * @args: arguments after split.
  */
 
-void execute_builtIn_args_in_shell(int (*builtIn)(char **),
+int execute_builtIn_args_in_shell(int (*builtIn)(char **),
 		char *line, char **args, char *argv_0)
 {
 	int status, exit_num = 0;
 
 	status = builtIn(args);
-	if (status == 10)
+	if (status == 100)
+	{
+		return (status);
+	}
+	else if (status == 10)
 	{
 		free(line);
 		free_memory_array(args);
@@ -41,6 +45,22 @@ void execute_builtIn_args_in_shell(int (*builtIn)(char **),
                         exit(exit_num);
 		}
 	}
+	else if (status == 30)
+	{
+		if (args[1] == NULL)
+		{
+			chdir(_getenv("HOME"));
+		}
+		else
+		{
+			if (chdir(args[1]) != 0)
+			{
+				perror("cd");
+			}
+		}
+		free_memory_all(2, line, 1, args, 0);
+	}
+	return (status);
 }
 
 /**
@@ -51,7 +71,7 @@ void execute_builtIn_args_in_shell(int (*builtIn)(char **),
 void interactive_shell(char *argv_0)
 {
 	char **args = NULL, *line = NULL, *cmd_file_path = NULL;
-	int status;
+	int status, builtInNum;
 
 	while (1)
 	{
@@ -69,7 +89,9 @@ void interactive_shell(char *argv_0)
 			free(line);
 			continue;
 		}
-		execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
+		builtInNum = execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
+		if (builtInNum == 100 || builtInNum == 30)
+			continue;
 		cmd_file_path = stat_file_in_path(args[0]);
 		if (cmd_file_path != NULL)
 		{
@@ -82,9 +104,7 @@ void interactive_shell(char *argv_0)
 			free(cmd_file_path);
 		}
 		else
-		{
 			print_error(argv_0, args[0]);
-		}
 		free_memory_all(2, line, 1, args, 0);
 	}
 }

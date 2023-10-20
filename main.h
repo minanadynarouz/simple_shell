@@ -31,7 +31,7 @@ char *stat_file_in_path(char *args);
 int execute_cmd(char *cmd, char **args);
 char *read_stream(void);
 int execute_builtIn_args(char **args);
-void execute_builtIn_args_in_shell(int (*builtIn)(char **),
+int execute_builtIn_args_in_shell(int (*builtIn)(char **),
 		char *line, char **args, char *argv_0);
 
 /*--Helper Functions--*/
