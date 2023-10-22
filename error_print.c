@@ -22,6 +22,7 @@ void print_error_non(char *argv_0, char *shell_arg, int count)
 
 /**
  * print_error - function to print error msg.
+ * @argv_0: is shell program.
  * @shell_arg: is command inserted by user.
  */
 
@@ -33,4 +34,3 @@ void print_error(char *argv_0, char *shell_arg)
 	write(STDERR_FILENO, ": command not found\n",
 			_strlen(": command not found\n"));
 }
-

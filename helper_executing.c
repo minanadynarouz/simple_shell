@@ -16,8 +16,6 @@ int execute_builtIn_args(char **args)
 		return (10);
 	if (_strcmp(args[0], "exit") == 0 && args[1] != NULL)
 		return (20);
-	if (_strcmp(args[0], "cd") == 0)
-		return (30);
 	return (0);
 }
 
