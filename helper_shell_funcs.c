@@ -71,28 +71,20 @@ char **split_string(char *string)
 }
 
 /**
- * _getenv - func to get environment variable.
- * @path: env variable to be retreived.
- * Return: the env variable.
+ * print_env - func to print environment variable.
  */
 
-char *_getenv(char *path)
+void print_env(void)
 {
-	char *path_finder = NULL;
-	int i;
+	char **envp;
 
-	i = 0;
-	while (environ[i] != NULL)
+	for (envp = environ; *envp; envp++)
 	{
-		if (_strncmp(path, environ[i], _strlen(path)) == 0)
-		{
-			path_finder = environ[i];
-			break;
-		}
-		i++;
+		write(STDOUT_FILENO, *envp, _strlen(*envp));
+		write(STDOUT_FILENO, "\n", 1);
 	}
-	return (path_finder);
 }
+
 /**
  * stat_file_in_path - split path, check cmd workability
  * create new path cmd based on user input.

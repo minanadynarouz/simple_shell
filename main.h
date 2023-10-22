@@ -49,6 +49,7 @@ void print_error(char *argv_0, char *shell_arg);
 int digits(int x);
 char *int_to_str(int num);
 ssize_t _getline(char **lineptr, size_t *n, FILE *stream);
+void print_env(void);
 
 /*--Freeing Memory function--*/
 void free_memory_array(char **item);

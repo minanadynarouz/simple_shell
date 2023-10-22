@@ -47,6 +47,8 @@ int execute_builtIn_args_in_shell(int (*builtIn)(char **),
 			exit(exit_num);
 		}
 	}
+	else if (status == 30)
+		print_env();
 	return (status);
 }
 

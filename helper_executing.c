@@ -16,6 +16,8 @@ int execute_builtIn_args(char **args)
 		return (10);
 	if (_strcmp(args[0], "exit") == 0 && args[1] != NULL)
 		return (20);
+	if (_strcmp(args[0], "env") == 0)
+		return (30);
 	return (0);
 }
 
@@ -31,7 +33,7 @@ int execute_cmd(char *cmd, char **args)
 {
 	pid_t child_pid;
 	int status;
-	char **envp = {environ};
+	char **envp = {NULL};
 
 	if (cmd)
 	{
@@ -108,4 +110,28 @@ char *read_stream(void)
 	}
 	free(line);
 	return (line);
+}
+
+/**
+ * _getenv - func to get environment variable.
+ * @path: env variable to be retreived.
+ * Return: the env variable.
+ */
+
+char *_getenv(char *path)
+{
+	char *path_finder = NULL;
+	int i;
+
+	i = 0;
+	while (environ[i] != NULL)
+	{
+		if (_strncmp(path, environ[i], _strlen(path)) == 0)
+		{
+			path_finder = environ[i];
+			break;
+		}
+		i++;
+	}
+	return (path_finder);
 }
