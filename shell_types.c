@@ -83,8 +83,6 @@ void interactive_shell(char *argv_0)
 			free_memory_all(2, line, 1, args, 0);
 			continue;
 		}
-		else if (builtInNum == 30)
-			continue;
 		cmd_file_path = stat_file_in_path(args[0]);
 		if (cmd_file_path != NULL)
 		{
