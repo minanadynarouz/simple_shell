@@ -78,11 +78,13 @@ void interactive_shell(char *argv_0)
 		}
 		builtInNum = execute_builtIn_args_in_shell
 			(execute_builtIn_args, line, args, argv_0);
-		if (builtInNum == 100 || builtInNum == 30)
+		if (builtInNum == 100)
 		{
 			free_memory_all(2, line, 1, args, 0);
 			continue;
 		}
+		else if (builtInNum == 30)
+			continue;
 		cmd_file_path = stat_file_in_path(args[0]);
 		if (cmd_file_path != NULL)
 		{
