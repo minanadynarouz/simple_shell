@@ -5,6 +5,8 @@
  * @builtIn: function pointer to call built in func.
  * @line: the line from input stream.
  * @args: arguments after split.
+ * @argv_0: argument file.
+ * Return: Status number.
  */
 
 int execute_builtIn_args_in_shell(int (*builtIn)(char **),
@@ -29,10 +31,10 @@ int execute_builtIn_args_in_shell(int (*builtIn)(char **),
 		if ((exit_num == 0 && strcmp(args[1], "0") != 0) || exit_num < 0)
 		{
 			write(STDERR_FILENO, argv_0, _strlen(argv_0));
-                        write(STDERR_FILENO, ": 1: ", _strlen(": 1: "));
-                        write(STDERR_FILENO, "exit: ", _strlen("exit: "));
-                        write(STDERR_FILENO, "Illegal number: ", _strlen("Illegal number: "));
-                        write(STDERR_FILENO, args[1], _strlen(args[1]));
+			write(STDERR_FILENO, ": 1: ", _strlen(": 1: "));
+			write(STDERR_FILENO, "exit: ", _strlen("exit: "));
+			write(STDERR_FILENO, "Illegal number: ", _strlen("Illegal number: "));
+			write(STDERR_FILENO, args[1], _strlen(args[1]));
 			write(STDERR_FILENO, "\n", 1);
 			free(line);
 			free_memory_array(args);
@@ -41,8 +43,8 @@ int execute_builtIn_args_in_shell(int (*builtIn)(char **),
 		else
 		{
 			free(line);
-                        free_memory_array(args);
-                        exit(exit_num);
+			free_memory_array(args);
+			exit(exit_num);
 		}
 	}
 	return (status);
@@ -72,7 +74,8 @@ void interactive_shell(char *argv_0)
 		{
 			free(line);
 		}
-		builtInNum = execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
+		builtInNum = execute_builtIn_args_in_shell
+			(execute_builtIn_args, line, args, argv_0);
 		if (builtInNum == 100)
 		{
 			free_memory_all(2, line, 1, args, 0);
@@ -116,13 +119,14 @@ void non_interactive_shell(char *argv_0)
 			free(line);
 			continue;
 		}
-		builtInNum = execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
-                if (builtInNum == 100)
-                {
-                        free(line);
-                        free(args);
-                        continue;
-                }
+		builtInNum = execute_builtIn_args_in_shell
+			(execute_builtIn_args, line, args, argv_0);
+		if (builtInNum == 100)
+		{
+			free(line);
+			free(args);
+			continue;
+		}
 		cmd_file_path = stat_file_in_path(args[0]);
 		if (cmd_file_path != NULL)
 		{
