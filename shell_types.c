@@ -45,21 +45,6 @@ int execute_builtIn_args_in_shell(int (*builtIn)(char **),
                         exit(exit_num);
 		}
 	}
-	else if (status == 30)
-	{
-		if (args[1] == NULL)
-		{
-			chdir(_getenv("HOME"));
-		}
-		else
-		{
-			if (chdir(args[1]) != 0)
-			{
-				perror("cd");
-			}
-		}
-		free_memory_all(2, line, 1, args, 0);
-	}
 	return (status);
 }
 
@@ -85,15 +70,12 @@ void interactive_shell(char *argv_0)
 		args = split_string(line);
 		if (args == NULL)
 		{
-			perror("Error splitting input\n");
 			free(line);
-			continue;
 		}
 		builtInNum = execute_builtIn_args_in_shell(execute_builtIn_args, line, args, argv_0);
 		if (builtInNum == 100)
 		{
-			free(line);
-			free(args);
+			free_memory_all(2, line, 1, args, 0);
 			continue;
 		}
 		cmd_file_path = stat_file_in_path(args[0]);
@@ -121,10 +103,8 @@ void interactive_shell(char *argv_0)
 
 void non_interactive_shell(char *argv_0)
 {
-	char **args;
-	char *line;
+	char **args, *line, *cmd_file_path;
 	int status, builtInNum, commandCountNonInteractive = 0;
-	char *cmd_file_path;
 
 	while ((line = read_stream()) != 0)
 	{
